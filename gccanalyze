@@ -28,6 +28,12 @@ import subprocess
 import sys
 
 
+def directory(filename):
+    """Return directory of filename."""
+    directory_path = os.path.dirname(filename)
+    return directory_path if directory_path else '.'
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--include-directory', action='append', default=[],
@@ -63,7 +69,7 @@ def main():
         gcc_command = (
             base_command +
             options +
-            ['-I' + os.path.dirname(filename)] +
+            ['-I' + directory(filename)] +
             ['-c', filename])
 
         if args.verbose:
