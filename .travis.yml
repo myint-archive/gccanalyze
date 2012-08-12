@@ -17,8 +17,8 @@ install:
 
 script:
     - ./gccanalyze --verbose bad.cc
-    - ./gccanalyze --verbose good.cc
-    - ./gccanalyze --verbose --strict-shadow good.cc
+    - ./gccanalyze --verbose okay.cc
+    - ./gccanalyze --verbose --strict-shadow okay.cc
     - python test_gccanalyze.py
     - coverage run test_gccanalyze.py
     - coverage report --show-missing
