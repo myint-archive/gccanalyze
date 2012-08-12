@@ -51,6 +51,7 @@ def main():
         '-Wold-style-cast',
         '-Wpointer-arith',
         '-Wswitch-default',
+        '-Wshadow',
         '-ansi',
         '-pedantic',
         '-fsyntax-only']
