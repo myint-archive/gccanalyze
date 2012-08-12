@@ -1,9 +1,14 @@
 class Foo
 {
-    void foo()
+    float foo()
     {
+        const float fizz = 1.1f;
+        return fizz;
     }
 
+    void fizz()
+    {
+    }
 
     int bar()
     {

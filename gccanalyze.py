@@ -34,6 +34,23 @@ def directory(filename):
     return directory_path if directory_path else '.'
 
 
+def split_warnings(warnings):
+    """Split full warning text into individual warnings."""
+    current = []
+    for line in warnings.split('\n'):
+        line = line.strip()
+        if not line:
+            continue
+
+        current.append(line)
+        if line.endswith(']') and '[-W' in line:
+            yield '\n'.join(current)
+            current = []
+
+    if current:
+        yield '\n'.join(current)
+
+
 def filter_shadow(warnings):
     """Return filtered shadow warnings.
 
@@ -41,7 +58,7 @@ def filter_shadow(warnings):
 
     """
     filtered_lines = [
-        line for line in warnings.split('\n')
+        line for line in split_warnings(warnings)
         if line and
         not line.endswith(" shadows a member of 'this' [-Wshadow]")]
 
