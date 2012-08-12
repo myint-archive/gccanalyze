@@ -34,10 +34,29 @@ def directory(filename):
     return directory_path if directory_path else '.'
 
 
+def filter_shadow(warnings):
+    """Return filtered shadow warnings.
+
+    Leave local shadow warnings.
+
+    """
+    filtered_lines = [
+        line for line in warnings.split('\n')
+        if line and
+        not line.endswith(" shadows a member of 'this' [-Wshadow]")]
+
+    if len(filtered_lines) < 2:
+        return ''
+    else:
+        return '\n'.join(filtered_lines)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--include-directory', action='append', default=[],
                         help='search for headers here')
+    parser.add_argument('--strict-shadow', action='store_true',
+                        help='warn about all shadowing')
     parser.add_argument('--verbose', action='store_true',
                         help='echo GCC command')
     parser.add_argument('files', nargs='+',
@@ -74,7 +93,12 @@ def main():
 
         if args.verbose:
             print(' '.join(gcc_command))
-        subprocess.call(gcc_command)
+        process = subprocess.Popen(gcc_command,
+                                   stderr=subprocess.PIPE)
+        (_, warnings) = process.communicate()
+        warnings = warnings.decode('utf-8')
+
+        print(warnings if args.strict_shadow else filter_shadow(warnings))
 
 
 if __name__ == '__main__':
