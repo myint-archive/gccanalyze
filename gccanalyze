@@ -23,6 +23,7 @@
 __version__ = '0.1'
 
 import argparse
+import os
 import subprocess
 import sys
 
@@ -59,7 +60,12 @@ def main():
     options = ['-I' + include for include in args.include_directory]
 
     for filename in args.files:
-        gcc_command = base_command + options + ['-c', filename]
+        gcc_command = (
+            base_command +
+            options +
+            ['-I' + os.path.dirname(filename)] +
+            ['-c', filename])
+
         if args.verbose:
             print(' '.join(gcc_command))
         subprocess.call(gcc_command)
