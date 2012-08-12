@@ -16,6 +16,9 @@ install:
     - python setup.py --quiet install
 
 script:
+    - ./gccanalyze bad.cc
+    - ./gccanalyze good.cc
+    - ./gccanalyze --strict-shadow good.cc
     - python test_gccanalyze.py
     - coverage run test_gccanalyze.py
     - coverage report --show-missing
