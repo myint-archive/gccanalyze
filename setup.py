@@ -6,7 +6,7 @@ from distutils import core
 
 def version():
     """Return version string."""
-    with open('gccanalyze') as input_file:
+    with open('gccanalyze.py') as input_file:
         for line in input_file:
             if line.startswith('__version__'):
                 import ast
