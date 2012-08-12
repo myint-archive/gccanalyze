@@ -4,6 +4,10 @@ gccanalyze
 
 Do static analysis with GCC.
 
+.. image:: https://secure.travis-ci.org/myint/gccanalyze.png
+   :target: https://secure.travis-ci.org/myint/gccanalyze
+   :alt: Build status
+
 
 -------
 Example
