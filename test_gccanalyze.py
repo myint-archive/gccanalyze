@@ -15,30 +15,35 @@ import gccanalyze
 
 class TestSystem(unittest.TestCase):
 
-    def check(self, expected, arguments):
+    def check(self, expected_warnings, arguments):
         output_file = StringIO()
         gccanalyze.main(argv=['gccanalyze'] + arguments,
                         standard_out=output_file)
         self.assertEqual(
-            expected.strip(),
-            output_file.getvalue().strip())
+            sorted(expected_warnings),
+            sorted(extract_warnings(output_file.getvalue())))
 
     def test_okay(self):
         self.check('', ['okay.cc'])
 
     def test_okay_with_strict_shadow(self):
-        self.check("""
-okay.cc: In member function 'int Foo::bar()':
-okay.cc:10:19: warning: declaration of 'foo' shadows a member of 'this' [-Wshadow]
-""", ['--strict-shadow', 'okay.cc'])
+        self.check(['shadow'],
+                   ['--strict-shadow', 'okay.cc'])
 
     def test_bad(self):
-        self.check("""
-bad.cc: In function 'int main()':
-bad.cc:5:19: warning: declaration of 'foo' shadows a previous local [-Wshadow]
-bad.cc:3:15: warning: shadowed declaration is here [-Wshadow]
-bad.cc:5:19: warning: unused variable 'foo' [-Wunused-variable]
-""", ['bad.cc'])
+        self.check(['shadow', 'shadow', 'unused-variable'],
+                   ['bad.cc'])
+
+
+def extract_warnings(message):
+    """Return list of warning categories."""
+    for line in message.split('\n'):
+        line = line.strip()
+        if '[-W' in line and line.endswith(']'):
+            warning = line.rsplit('[', 1)[1]
+            if warning.startswith('-W'):
+                assert warning.endswith(']')
+                yield warning[2:-1]
 
 
 if __name__ == '__main__':
