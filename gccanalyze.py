@@ -51,9 +51,9 @@ def filter_shadow(warnings):
         return '\n'.join(filtered_lines)
 
 
-def main():
+def main(argv, standard_out):
     """Main function."""
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__, prog='gccanalyze')
     parser.add_argument('--include-directory', action='append', default=[],
                         help='search for headers here')
     parser.add_argument('--strict-shadow', action='store_true',
@@ -62,7 +62,8 @@ def main():
                         help='echo GCC command')
     parser.add_argument('files', nargs='+',
                         help='files to analyze')
-    args = parser.parse_args()
+
+    args = parser.parse_args(argv[1:])
 
     base_command = [
         'gcc',
@@ -93,13 +94,15 @@ def main():
             ['-c', filename])
 
         if args.verbose:
-            print(' '.join(gcc_command))
+            standard_out.write(' '.join(gcc_command) + '\n')
         process = subprocess.Popen(gcc_command,
                                    stderr=subprocess.PIPE)
         (_, warnings) = process.communicate()
         warnings = warnings.decode('utf-8')
 
-        print(warnings if args.strict_shadow else filter_shadow(warnings))
+        standard_out.write(
+            (warnings if args.strict_shadow else filter_shadow(warnings)) +
+            '\n')
 
 
 if __name__ == '__main__':

@@ -1,19 +1,27 @@
 try:
+    from StringIO import StringIO
+except ImportError:
+    # Python 3
+    from io import StringIO
+
+try:
     # Python 2.6
     import unittest2 as unittest
 except:
     import unittest
 
-import subprocess
+import gccanalyze
 
 
 class TestSystem(unittest.TestCase):
 
     def check(self, expected, arguments):
-        process = subprocess.Popen(['./gccanalyze'] + arguments,
-                                   stdout=subprocess.PIPE)
-        (output, _) = process.communicate()
-        self.assertEqual(expected.strip(), output.decode('utf-8').strip())
+        output_file = StringIO()
+        gccanalyze.main(argv=['gccanalyze'] + arguments,
+                        standard_out=output_file)
+        self.assertEqual(
+            expected.strip(),
+            output_file.getvalue().strip())
 
     def test_okay(self):
         self.check('', ['okay.cc'])

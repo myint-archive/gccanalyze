@@ -26,4 +26,4 @@ import gccanalyze
 
 
 if __name__ == '__main__':
-    sys.exit(gccanalyze.main())
+    sys.exit(gccanalyze.main(sys.argv, standard_out=sys.stdout))
