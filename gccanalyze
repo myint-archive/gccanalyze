@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+"""Do static analysis with GCC."""
+
+import argparse
+import subprocess
+import sys
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('files', nargs='+', help='files to analyze')
+    args = parser.parse_args()
+
+    command = [
+        'gcc',
+        '-O3',
+        '-Wall',
+        '-Wcast-qual',
+        '-Wconversion',
+        '-Wextra',
+        '-Winit-self',
+        '-Wlogical-op',
+        '-Wmissing-include-dirs',
+        '-Wnon-virtual-dtor',
+        '-Wold-style-cast',
+        '-Wpointer-arith',
+        '-Wswitch-default',
+        '-ansi',
+        '-pedantic',
+        '-fsyntax-only',
+        '-c']
+
+    for filename in args.files:
+        subprocess.call(command + [filename])
+
+
+if __name__ == '__main__':
+    sys.exit(main())
