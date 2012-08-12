@@ -29,7 +29,7 @@ import sys
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--include-directory', action='append',
+    parser.add_argument('--include-directory', action='append', default=[],
                         help='search for headers here')
     parser.add_argument('--verbose', action='store_true',
                         help='echo GCC command')
