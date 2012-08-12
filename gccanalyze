@@ -29,10 +29,15 @@ import sys
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('files', nargs='+', help='files to analyze')
+    parser.add_argument('--include-directory', action='append',
+                        help='search for headers here')
+    parser.add_argument('--verbose', action='store_true',
+                        help='echo GCC command')
+    parser.add_argument('files', nargs='+',
+                        help='files to analyze')
     args = parser.parse_args()
 
-    command = [
+    base_command = [
         'gcc',
         '-O3',
         '-Wall',
@@ -48,11 +53,15 @@ def main():
         '-Wswitch-default',
         '-ansi',
         '-pedantic',
-        '-fsyntax-only',
-        '-c']
+        '-fsyntax-only']
+
+    options = ['-I' + include for include in args.include_directory]
 
     for filename in args.files:
-        subprocess.call(command + [filename])
+        gcc_command = base_command + options + ['-c', filename]
+        if args.verbose:
+            print(' '.join(gcc_command))
+        subprocess.call(gcc_command)
 
 
 if __name__ == '__main__':
