@@ -9,7 +9,7 @@ Do static analysis with GCC.
 Example
 -------
 
-Simple example::
+Only interesting shadowing cases are shown::
 
     $ gccanalyze bad.cc
 
