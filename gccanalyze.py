@@ -20,7 +20,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """Do static analysis with GCC."""
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 import argparse
 import os
