@@ -117,9 +117,12 @@ def main(argv, standard_out):
         (_, warnings) = process.communicate()
         warnings = warnings.decode('utf-8')
 
-        standard_out.write(
-            (warnings if args.strict_shadow else filter_shadow(warnings)) +
-            '\n')
+        if process.returncode != 0:
+            standard_out.write(warnings + '\n')
+        else:
+            standard_out.write(
+                (warnings if args.strict_shadow else filter_shadow(warnings)) +
+                '\n')
 
 
 if __name__ == '__main__':
