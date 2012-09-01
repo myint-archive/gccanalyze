@@ -1,7 +1,7 @@
 check:
 	@pep8 gccanalyze gccanalyze.py setup.py
 	@echo .
-	@pep257.py gccanalyze gccanalyze.py setup.py
+	@pep257 gccanalyze gccanalyze.py setup.py
 	@echo .
 	@pylint --report=no --include-ids=yes --disable=F0401,R0914,E1103,E1120 --rcfile=/dev/null gccanalyze.py setup.py
 	@echo .
