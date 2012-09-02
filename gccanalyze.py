@@ -114,8 +114,7 @@ def main(argv, standard_out):
             standard_out.write(' '.join(gcc_command) + '\n')
         process = subprocess.Popen(gcc_command,
                                    stderr=subprocess.PIPE)
-        (_, warnings) = process.communicate()
-        warnings = warnings.decode('utf-8')
+        warnings = process.communicate()[1].decode('utf-8')
 
         if process.returncode != 0:
             standard_out.write(warnings + '\n')
