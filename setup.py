@@ -19,7 +19,7 @@ with open('README.rst') as readme:
                description='Do static analysis with GCC.',
                long_description=readme.read(),
                license='Expat License',
-               author='myint',
+               author='Steven Myint',
                url='https://github.com/myint/gccanalyze',
                classifiers=['Intended Audience :: Developers',
                             'Environment :: Console',
