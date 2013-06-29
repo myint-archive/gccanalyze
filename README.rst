@@ -5,8 +5,8 @@ gccanalyze
 Do static analysis with GCC.
 
 .. image:: https://travis-ci.org/myint/gccanalyze.png
-   :target: https://travis-ci.org/myint/gccanalyze
-   :alt: Build status
+    :target: https://travis-ci.org/myint/gccanalyze
+    :alt: Build status
 
 
 -------
